@@ -49,10 +49,12 @@ public class Biblioteca {
 
     private Libro getLibroPorCodigo(String cod) {
         Integer ind = 0;
-        while (cod.equals(this.listaLibros.get(ind).getCod())) {
-            ind++;
+        Boolean est = false;
+        for (; ind < this.listaLibros.size() && !est; ind++) {
+            if(this.listaLibros.get(ind).getCod().equals(cod))
+                est = true;
         }
-        return this.listaLibros.get(ind);
+        return this.listaLibros.get(ind-1);
     }
 
     public Boolean prestamoLibro(Libro libro, Estudiante alumno) throws NoMoreCopyException {
@@ -81,7 +83,7 @@ public class Biblioteca {
         return c;
     }
 
-    public Boolean prestamoLibro(List<Libro> librosPrestar, Estudiante alumno) throws Exception {
+    public Boolean prestamoLibro(List<Libro> librosPrestar, Estudiante alumno) {
         /*Boolean est = false;
         Integer cantPrestamos = this.obtenerCantidadDePrestamosPorDNI(alumno.getDni()) + librosPrestar.size() ;
         Integer cantPrestamosFotocopiables = this.obtenerCantidadDePrestamosFotocopiablesPorDNI(alumno.getDni())+this.getCantidadLibrosFotocopiables(librosPrestar);
@@ -104,9 +106,13 @@ public class Biblioteca {
                 if (this.prestamoLibro(librosPrestar.get(0), alumno))
                     est = true;
             }
-        } catch (Exception e) {
+        } catch (NoMoreCopyException e) {
+            est = false;
         }
         return est;
     }
 
+    public List<Prestamo> getListaPrestamos() {
+        return listaPrestamos;
+    }
 }
