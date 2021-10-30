@@ -112,6 +112,23 @@ public class Biblioteca {
         return est;
     }
 
+
+
+    public Boolean devolverLibro (Libro libroADevolver, Estudiante alumno){
+        Boolean enc = false;
+        Integer i=0;
+        for (; i < this.listaPrestamos.size() && !enc; i++) {
+            Prestamo aux = this.listaPrestamos.get(i);
+            if(libroADevolver.getCod().equals(aux.getCod())&&alumno.getDni().equalsIgnoreCase(aux.getDni())){
+                enc = true;
+            }
+        }
+        if (enc){
+            this.listaPrestamos.remove(i);
+        }
+        return enc;
+    }
+
     public List<Prestamo> getListaPrestamos() {
         return listaPrestamos;
     }
