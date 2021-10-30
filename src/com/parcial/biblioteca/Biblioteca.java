@@ -47,6 +47,16 @@ public class Biblioteca {
         return c;
     }
 
+    private Integer obtenerLibroPorCodigo(String cod) {
+        Integer ind = 0;
+        Boolean est = false;
+        for (; ind < this.listaLibros.size() && !est; ind++) {
+            if(this.listaLibros.get(ind).getCod().equals(cod))
+                est = true;
+        }
+        return ind-1;
+    }
+
     private Libro getLibroPorCodigo(String cod) {
         Integer ind = 0;
         Boolean est = false;
@@ -65,7 +75,7 @@ public class Biblioteca {
         if (libroPrestar.getCantCopias() == 0)
             throw new NoMoreCopyException("No existe más copias para el libro pedido");
         else if (cantPrestamosFotocopiables == 0 && cantPrestamosAnteriores < 2 && libroPrestar.getDestino().equals(alumno.getTipo())) {
-            libroPrestar.setCantCopias(libroPrestar.getCantCopias() - 1);
+            libroPrestar.decrementarCopia();
             this.listaPrestamos.add(new Prestamo(libro.getCod(), alumno.getDni()));
             est = true;
         }
@@ -125,8 +135,17 @@ public class Biblioteca {
         }
         if (enc){
             this.listaPrestamos.remove(i);
+            this.listaLibros.get(this.obtenerLibroPorCodigo(libroADevolver.getCod())).incrementarCopia();
         }
         return enc;
+    }
+
+    public Libro fotocopiarLibro(Libro libroFotocopiar, Estudiante alumno){
+        Libro copia = null;
+        if(libroFotocopiar.esFotocopiable()&&this.devolverLibro(libroFotocopiar,alumno)){
+            copia = libroFotocopiar;
+        }
+        return copia;
     }
 
     public List<Prestamo> getListaPrestamos() {

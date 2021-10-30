@@ -20,6 +20,17 @@ public class Libro implements Fotocopiable{
         this.cantCopias = 3;
     }
 
+    public void incrementarCopia(){
+        this.cantCopias++;
+    }
+
+    public Integer decrementarCopia(){
+        if(this.cantCopias > 0){
+            this.cantCopias--;
+        }
+        return this.cantCopias;
+    }
+
     public String getCod() {
         return cod;
     }
@@ -68,14 +79,6 @@ public class Libro implements Fotocopiable{
         this.destino = destino;
     }
 
-    public Libro fotocopiarLibro(){
-        Libro libroFotocopiado = null;
-        if(this.esFotocopiable()){
-            libroFotocopiado = this;
-        }
-        return libroFotocopiado;
-    }
-
     @Override
     public Boolean esFotocopiable() {
         return this.nomb.equals("Historia") || this.nomb.equals("Geografía") || this.nomb.equals("Cs Naturales") || this.nomb.equals("Cs Sociales") || this.nomb.equals("Quimica") || this.nomb.equals("Física");
@@ -92,5 +95,10 @@ public class Libro implements Fotocopiable{
     @Override
     public int hashCode() {
         return Objects.hash(getCod(), getNomb(), getAut(), getEdit(), getDestino(), getCantCopias());
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

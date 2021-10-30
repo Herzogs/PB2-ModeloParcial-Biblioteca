@@ -103,4 +103,22 @@ public class BibliotecaTest {
         this.biblio.prestamoLibro(lib1,cristian_feldman);
         Assert.assertTrue(this.biblio.devolverLibro(lib1,cristian_feldman));
     }
+
+    @Test
+    public void queSeIntenteFotocopiarUnLibroQueNoEsFotoCopiableYPorEsoDaError() throws NoMoreCopyException{
+        Libro lib1 = new Libro("0001", "Analisis Matematico", "none", "none", tipoEstudiante.UNIVERSITARIO);
+        Estudiante cristian_feldman = new Estudiante("33557055", "Cristian Feldman", tipoEstudiante.UNIVERSITARIO);
+        this.biblio.agregarLibro(lib1);
+        this.biblio.prestamoLibro(lib1,cristian_feldman);
+        Assert.assertNull(this.biblio.fotocopiarLibro(lib1,cristian_feldman));
+    }
+
+    @Test
+    public void queSeIntenteFotocopiarUnLibroQueSiEsFotocopiableYPorEsoDaOkay() throws NoMoreCopyException{
+        Libro lib1 = new Libro("0001", "Quimica", "none", "none", tipoEstudiante.UNIVERSITARIO);
+        Estudiante cristian_feldman = new Estudiante("33557055", "Cristian Feldman", tipoEstudiante.UNIVERSITARIO);
+        this.biblio.agregarLibro(lib1);
+        this.biblio.prestamoLibro(lib1,cristian_feldman);
+        Assert.assertNotNull(this.biblio.fotocopiarLibro(lib1,cristian_feldman));
+    }
 }
